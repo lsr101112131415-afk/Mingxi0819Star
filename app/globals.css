@@ -10,6 +10,8 @@
   --navy: #173f5f;
   --ink: #5b392b;
   --mint: #87b99b;
+  --font-doodle: "Xiaolai SC", "LXGW WenKai Lite", "KaiTi", "STKaiti", cursive;
+  --font-readable: "LXGW WenKai Lite", "Xiaolai SC", "KaiTi", "STKaiti", cursive;
 }
 
 * { box-sizing: border-box; }
@@ -18,8 +20,9 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--cream);
-  font-family: "LXGW WenKai Lite", "KaiTi", "STKaiti", cursive;
-  letter-spacing: .018em;
+  font-family: var(--font-doodle);
+  font-synthesis: none;
+  letter-spacing: .012em;
 }
 button, input, textarea { font: inherit; }
 button { color: inherit; }
@@ -56,7 +59,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   cursor: pointer;
   transition: transform .72s cubic-bezier(.23,.78,.25,1), opacity .5s ease, visibility .1s linear .65s;
 }
-.envelope-scene strong { margin-top: 15px; font-family: "KaiTi", "STKaiti", serif; font-size: clamp(1.35rem, 5vw, 2rem); letter-spacing: .06em; text-shadow: 2px 2px 0 rgba(0,0,0,.25); }
+.envelope-scene strong { margin-top: 15px; font-family: var(--font-doodle); font-size: clamp(1.35rem, 5vw, 2rem); letter-spacing: .035em; transform: rotate(-.8deg); text-shadow: 2px 2px 0 rgba(0,0,0,.25); }
 .envelope-scene small { color: #f8d981; font-weight: 800; letter-spacing: .12em; }
 .envelope-scene:hover .envelope { transform: translateY(-6px) rotate(-1deg); }
 .envelope { position: relative; width: min(360px, 76vw); aspect-ratio: 1.42; display: block; transition: transform .25s ease; filter: drop-shadow(0 20px 22px rgba(0,0,0,.3)); }
@@ -105,7 +108,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .invite-details span { color: #8d725f; font-size: .7rem; letter-spacing: .16em; }
 .invite-details strong { color: var(--navy); font-size: clamp(1rem, 4vw, 1.25rem); }
 .invite-details i { color: var(--butter); font-style: normal; }
-.wish { margin: 14px 0; color: var(--tomato); font-family: "KaiTi", "STKaiti", serif; font-size: clamp(1.05rem, 4vw, 1.35rem); font-weight: 900; }
+.wish { margin: 14px 0; color: var(--tomato); font-family: var(--font-doodle); font-size: clamp(1.05rem, 4vw, 1.35rem); font-weight: 400; letter-spacing: .045em; transform: rotate(.6deg); }
 .journey-button {
   border: 2px solid var(--ink);
   border-radius: 999px;
@@ -136,7 +139,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 }
 .is-entered .map-screen { opacity: 1; transform: none; }
 .map-header { max-width: 1400px; margin: 0 auto 20px; display: flex; align-items: end; justify-content: space-between; gap: 20px; }
-.map-header h2 { margin: 3px 0; color: var(--navy); font-family: "LXGW WenKai Lite", "KaiTi", cursive; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; letter-spacing: .035em; transform: rotate(-1deg); text-shadow: 2px 2px 0 rgba(244,165,138,.28); }
+.map-header h2 { margin: 3px 0; color: var(--navy); font-family: var(--font-doodle); font-size: clamp(2rem, 5vw, 4rem); line-height: 1; letter-spacing: .018em; transform: rotate(-1deg); text-shadow: 2px 2px 0 rgba(244,165,138,.28); }
 .map-header p { margin: 8px 0 0; font-weight: 700; }
 .map-actions { display: flex; align-items: center; gap: 10px; }
 .stop-count, .small-button { border: 2px solid var(--navy); border-radius: 999px; padding: 9px 14px; background: rgba(255,250,240,.86); color: var(--navy); font-size: .75rem; font-weight: 900; letter-spacing: .08em; white-space: nowrap; }
@@ -166,7 +169,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .journey-strip { max-width: 1200px; margin: 22px auto 0; display: grid; grid-template-columns: repeat(6, 1fr); border-block: 2px dashed rgba(91,57,43,.45); }
 .journey-strip button { border: 0; padding: 13px 6px; background: transparent; color: var(--navy); font-weight: 900; cursor: pointer; font-size: 1.05rem; letter-spacing: .06em; }
 .journey-strip span { display: block; color: var(--tomato); font-size: .65rem; letter-spacing: .15em; }
-.map-footer { max-width: 760px; margin: 18px auto 6px; text-align: center; font-family: "LXGW WenKai Lite", "KaiTi", cursive; font-size: clamp(1.05rem, 3vw, 1.35rem); font-weight: 900; letter-spacing: .08em; transform: rotate(-.6deg); }
+.map-footer { max-width: 760px; margin: 18px auto 6px; text-align: center; font-family: var(--font-doodle); font-size: clamp(1.05rem, 3vw, 1.35rem); font-weight: 400; letter-spacing: .05em; transform: rotate(-.6deg); }
 .admin-peek { position: absolute; right: 10px; bottom: 8px; border: 0; background: transparent; color: rgba(91,57,43,.34); font-size: 1rem; cursor: pointer; }
 
 .overlay { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 16px; overflow-y: auto; background: rgba(12,44,65,.73); backdrop-filter: blur(7px); animation: fadeIn .22s ease; }
@@ -187,7 +190,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 @keyframes albumZoom { from { opacity: 0; transform: scale(.72); } 70% { transform: scale(1.025); } to { opacity: 1; transform: scale(1); } }
 .album-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; padding: 0 45px 18px 0; }
 .stop-badge { writing-mode: vertical-rl; border-radius: 99px; padding: 10px 6px; color: #fff; background: var(--tomato); font-size: .65rem; font-weight: 900; letter-spacing: .1em; }
-.album-heading h3 { margin: 0; color: var(--navy); font-family: "KaiTi", "STKaiti", serif; font-size: clamp(2rem, 6vw, 3.3rem); line-height: .95; }
+.album-heading h3 { margin: 0; color: var(--navy); font-family: var(--font-doodle); font-size: clamp(2rem, 6vw, 3.3rem); line-height: .95; transform: rotate(-.7deg); }
 .album-heading p { margin: 5px 0 0; color: #8c6c5b; font-weight: 700; }
 .photo-total { display: grid; color: var(--tomato); text-align: center; font-size: 1.8rem; font-weight: 900; }
 .photo-total small { font-size: .55rem; letter-spacing: .14em; }
@@ -206,7 +209,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .thumbnails img { width: 100%; height: 100%; object-fit: cover; }
 .memory-note { display: flex; align-items: start; gap: 11px; margin: 17px 0 5px; padding: 15px 18px; border: 2px dashed rgba(91,57,43,.35); border-radius: 12px; background: #fff6d6; }
 .memory-note span { color: var(--butter); text-shadow: 1px 1px 0 var(--ink); }
-.memory-note p { margin: 0; line-height: 1.7; font-family: "KaiTi", "STKaiti", serif; font-size: 1.05rem; font-weight: 800; }
+.memory-note p { margin: 0; line-height: 1.7; font-family: var(--font-readable); font-size: 1.05rem; font-weight: 400; letter-spacing: .025em; }
 .admin-tools { margin-top: 18px; padding-top: 18px; border-top: 3px double rgba(91,57,43,.3); }
 .admin-tools h4 { margin: 0 0 12px; color: var(--navy); font-size: 1.1rem; }
 .upload-button { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; border: 2px solid var(--ink); border-radius: 12px; padding: 12px 14px; background: #dceee3; font-weight: 900; cursor: pointer; }

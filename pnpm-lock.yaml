@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@chinese-fonts/xiaolai':
+        specifier: ^3.0.0
+        version: 3.0.0
       drizzle-orm:
         specifier: 0.45.2
         version: 0.45.2
@@ -160,6 +163,9 @@ packages:
   '@babel/types@7.29.8':
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
+
+  '@chinese-fonts/xiaolai@3.0.0':
+    resolution: {integrity: sha512-22d5xFPzxPQZuvx8doHn6sHrzvrdG/0QuQWBXQoX9TlKVVAyTvEADWHQv9FBGHIYTINaCZTCnQ6O4rfic/bWdg==}
 
   '@cloudflare/kv-asset-handler@0.5.0':
     resolution: {integrity: sha512-jxQYkj8dSIzc0cD6cMMNdOc1UVjqSqu8BZdor5s8cGjW2I8BjODt/kWPVdY+u9zj3ms75Q5qaZgnxUad83+eAg==}
@@ -3318,6 +3324,8 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
+
+  '@chinese-fonts/xiaolai@3.0.0': {}
 
   '@cloudflare/kv-asset-handler@0.5.0': {}
 

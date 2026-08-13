@@ -27,6 +27,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <link rel="preload" href="/fonts/lxgwwenkailite-regular.css" as="style" />
         <link rel="stylesheet" href="/fonts/lxgwwenkailite-regular.css" />
+        <link rel="preload" href="/fonts/xiaolai/result.css" as="style" />
+        <link rel="stylesheet" href="/fonts/xiaolai/result.css" />
       </head>
       <body>{children}</body>
     </html>
