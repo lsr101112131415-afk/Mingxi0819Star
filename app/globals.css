@@ -18,7 +18,8 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--cream);
-  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+  font-family: "LXGW WenKai Lite", "KaiTi", "STKaiti", cursive;
+  letter-spacing: .018em;
 }
 button, input, textarea { font: inherit; }
 button { color: inherit; }
@@ -59,17 +60,20 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .envelope-scene small { color: #f8d981; font-weight: 800; letter-spacing: .12em; }
 .envelope-scene:hover .envelope { transform: translateY(-6px) rotate(-1deg); }
 .envelope { position: relative; width: min(360px, 76vw); aspect-ratio: 1.42; display: block; transition: transform .25s ease; filter: drop-shadow(0 20px 22px rgba(0,0,0,.3)); }
-.envelope-back { position: absolute; inset: 0; border: 3px solid var(--ink); border-radius: 8px 10px 12px 7px; background: #f5d893; }
+.envelope-back { position: absolute; inset: 0; border: 3px solid #7b4d2d; border-radius: 5px 9px 6px 10px; background: #f4cc55 url("/envelope-doodle.png") center/cover no-repeat; }
 .envelope-letter-peek { position: absolute; z-index: 1; left: 10%; right: 10%; bottom: 12%; height: 72%; display: grid; place-items: start center; padding-top: 18px; border: 2px solid var(--ink); border-radius: 8px 8px 3px 3px; color: var(--tomato); background: #fff8e8; font-size: .72rem; font-weight: 900; letter-spacing: .15em; transition: transform .65s cubic-bezier(.2,.76,.24,1) .18s; }
-.envelope-front { position: absolute; z-index: 2; inset: 0; overflow: hidden; border: 3px solid var(--ink); border-radius: 8px 10px 12px 7px; clip-path: polygon(0 35%,50% 72%,100% 35%,100% 100%,0 100%); background: linear-gradient(155deg,#f7dc94 49%,#efc777 50%); }
-.envelope-front::after { content: ""; position: absolute; inset: 35% 0 0; background: linear-gradient(35deg,transparent 49%,rgba(255,248,222,.5) 50%); }
-.envelope-flap { position: absolute; z-index: 3; inset: 0; border: 3px solid var(--ink); border-radius: 8px 10px 0 0; background: #ffe8a9; clip-path: polygon(0 0,100% 0,50% 68%); transform-origin: top; transition: transform .6s cubic-bezier(.45,.05,.2,1); backface-visibility: hidden; }
-.wax-seal { position: absolute; z-index: 5; left: 50%; top: 54%; width: 58px; height: 58px; display: grid; place-items: center; translate: -50% -50%; border: 3px solid var(--ink); border-radius: 50% 45% 52% 47%; color: #ffe481; background: var(--tomato); box-shadow: 3px 4px 0 rgba(91,57,43,.3); font-size: 1.55rem; transition: opacity .18s ease .15s, transform .3s ease; }
+.envelope-front { position: absolute; z-index: 2; inset: 0; overflow: hidden; border: 3px solid #7b4d2d; border-radius: 5px 9px 6px 10px; clip-path: polygon(0 35%,50% 72%,100% 35%,100% 100%,0 100%); background: linear-gradient(155deg,rgba(246,209,92,.82) 49%,rgba(239,190,71,.9) 50%), url("/envelope-doodle.png") center/cover; }
+.envelope-front::after { content: ""; position: absolute; inset: 35% 0 0; background: linear-gradient(35deg,transparent 49%,rgba(255,237,158,.38) 50%); }
+.envelope-flap { position: absolute; z-index: 3; inset: 0; border: 3px solid #7b4d2d; border-radius: 5px 9px 0 0; background: #f5ce58 url("/envelope-doodle.png") center top/cover no-repeat; clip-path: polygon(0 0,100% 0,50% 68%); transform-origin: top; transition: transform .6s cubic-bezier(.45,.05,.2,1); backface-visibility: hidden; }
+.recipient-note { position: absolute; z-index: 5; left: 9%; bottom: 11%; width: 42%; display: grid; gap: 1px; padding: 8px 9px 7px; border: 2px solid rgba(111,68,40,.75); border-radius: 4px 7px 5px 8px; color: #633f2a; background: rgba(255,237,167,.9); text-align: left; transform: rotate(-2.5deg); box-shadow: 2px 3px 0 rgba(111,68,40,.18); transition: opacity .18s ease .15s, transform .3s ease; }
+.recipient-note i { font-style: normal; font-size: .52rem; letter-spacing: .15em; }
+.recipient-note b { font-size: clamp(.95rem,4vw,1.35rem); line-height: 1; font-weight: 400; }
+.recipient-note em { color: var(--tomato); font-style: normal; font-size: .46rem; letter-spacing: .04em; }
 .envelope-shadow { position: absolute; bottom: 82px; width: 68%; height: 24px; border-radius: 50%; background: rgba(0,0,0,.23); filter: blur(10px); }
 .envelope-opened .envelope-scene { transform: translateY(46vh) scale(.7); opacity: 0; visibility: hidden; }
 .envelope-opened .envelope-flap { transform: rotateX(180deg); }
 .envelope-opened .envelope-letter-peek { transform: translateY(-46%); }
-.envelope-opened .wax-seal { opacity: 0; transform: scale(.55); }
+.envelope-opened .recipient-note { opacity: 0; transform: rotate(-7deg) scale(.75); }
 .invitation-card {
   position: relative;
   width: min(560px, 100%);
@@ -98,7 +102,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 }
 .eyebrow { color: var(--tomato); font-size: clamp(.62rem, 2vw, .78rem); font-weight: 900; letter-spacing: .15em; }
 .tiny-stars { margin: 8px 0 4px; color: var(--butter); text-shadow: 1px 1px 0 var(--ink); }
-.invite-copy h1 { margin: 0; color: var(--navy); font-size: clamp(2rem, 7.8vw, 3.25rem); line-height: 1.08; letter-spacing: -.05em; }
+.invite-copy h1 { margin: 0; color: var(--navy); font-size: clamp(2rem, 7.8vw, 3.25rem); line-height: 1.08; letter-spacing: .01em; transform: rotate(-1.2deg); text-shadow: 1px 2px 0 rgba(121,184,209,.28); }
 .invite-copy h1 span { display: block; color: var(--tomato); font-size: 1.25em; }
 .invite-lead { margin: 10px 0 16px; font-size: clamp(.78rem, 2.8vw, 1rem); font-weight: 700; }
 .invite-details { width: 90%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; padding: 12px 0; border-block: 2px dashed rgba(91,57,43,.32); }
@@ -137,7 +141,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 }
 .is-entered .map-screen { opacity: 1; transform: none; }
 .map-header { max-width: 1400px; margin: 0 auto 20px; display: flex; align-items: end; justify-content: space-between; gap: 20px; }
-.map-header h2 { margin: 3px 0; color: var(--navy); font-family: "KaiTi", "STKaiti", serif; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; }
+.map-header h2 { margin: 3px 0; color: var(--navy); font-family: "LXGW WenKai Lite", "KaiTi", cursive; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; letter-spacing: .035em; transform: rotate(-1deg); text-shadow: 2px 2px 0 rgba(244,165,138,.28); }
 .map-header p { margin: 8px 0 0; font-weight: 700; }
 .map-actions { display: flex; align-items: center; gap: 10px; }
 .stop-count, .small-button { border: 2px solid var(--navy); border-radius: 999px; padding: 9px 14px; background: rgba(255,250,240,.86); color: var(--navy); font-size: .75rem; font-weight: 900; letter-spacing: .08em; white-space: nowrap; }
@@ -147,13 +151,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .map-canvas.is-zoomed { transform: scale(1.2); }
 .map-canvas::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 65%, rgba(255,255,255,.15)); mix-blend-mode: screen; }
 .route-lines { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.route-lines span { position: absolute; height: 4px; border-radius: 5px; background: repeating-linear-gradient(90deg, var(--tomato) 0 9px, transparent 9px 16px); transform-origin: left center; opacity: 0; animation: drawRoute .8s ease forwards; filter: drop-shadow(0 1px 0 #fff8df); }
-.route-a { left: 43%; top: 75%; width: 25%; transform: rotate(-48deg); }
-.route-b { left: 63%; top: 45%; width: 29%; transform: rotate(58deg); }
-.route-c { left: 84%; top: 67%; width: 53%; transform: rotate(-91deg); }
-.route-d { left: 74%; top: 17%; width: 55%; transform: rotate(151deg); }
-.route-e { left: 26%; top: 40%; width: 20%; transform: rotate(-67deg); }
-@keyframes drawRoute { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: .85; clip-path: inset(0); } }
+.route-lines span { position: absolute; height: var(--curve, 18%); border-top: 3px dashed rgba(217,91,69,.46); border-radius: 50% 50% 0 0; background: transparent; transform-origin: left top; opacity: 0; animation: drawRoute .9s ease forwards; filter: drop-shadow(0 1px 0 rgba(255,248,223,.55)); }
+.route-a { left: 42%; top: 76%; width: 39%; --curve: 18%; transform: rotate(-59deg); }
+.route-b { left: 62%; top: 43%; width: 33%; --curve: 13%; transform: rotate(52deg); }
+.route-c { left: 82%; top: 69%; width: 55%; --curve: 14%; transform: rotate(-98deg); }
+.route-d { left: 74%; top: 15%; width: 55%; --curve: 19%; transform: rotate(154deg); }
+.route-e { left: 25%; top: 39%; width: 26%; --curve: 12%; transform: rotate(-69deg); }
+@keyframes drawRoute { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(-30% -5% -5% -5%); } }
 .map-pin { position: absolute; z-index: 3; display: flex; align-items: center; gap: 7px; border: 0; padding: 0; background: none; transform: translate(-50%, -50%); cursor: pointer; filter: drop-shadow(0 3px 0 rgba(91,57,43,.22)); }
 .pin-star { position: relative; display: grid; place-items: center; width: clamp(34px, 5vw, 60px); aspect-ratio: 1; color: var(--ink); background: var(--butter); clip-path: polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 94%,50% 72%,21% 94%,32% 57%,2% 35%,39% 35%); transition: transform .2s ease; animation: pinFloat 2.8s ease-in-out infinite; }
 .pin-star::after { content: ""; position: absolute; inset: 5px; background: #ffe58a; clip-path: inherit; z-index: -1; }
@@ -161,13 +165,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .map-pin:hover .pin-star, .map-pin:focus-visible .pin-star { transform: scale(1.18) rotate(8deg); }
 .map-pin:active .pin-star { transform: scale(1.42) rotate(-10deg); }
 .pin-label { display: grid; min-width: clamp(76px, 10vw, 132px); padding: 7px 10px; text-align: left; border: 2px solid var(--ink); border-radius: 8px 12px 9px 14px; background: rgba(255,248,224,.94); box-shadow: 3px 3px 0 rgba(91,57,43,.22); }
-.pin-label strong { color: var(--navy); font-size: clamp(.78rem, 1.7vw, 1.1rem); }
+.pin-label strong { color: var(--navy); font-size: clamp(.78rem, 1.7vw, 1.1rem); letter-spacing: .06em; transform: rotate(-.5deg); }
 .pin-label small { margin-top: 1px; color: #8c6a56; font-size: clamp(.48rem, 1vw, .7rem); white-space: nowrap; }
 @keyframes pinFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 .journey-strip { max-width: 1200px; margin: 22px auto 0; display: grid; grid-template-columns: repeat(6, 1fr); border-block: 2px dashed rgba(91,57,43,.45); }
-.journey-strip button { border: 0; padding: 13px 6px; background: transparent; color: var(--navy); font-weight: 900; cursor: pointer; }
+.journey-strip button { border: 0; padding: 13px 6px; background: transparent; color: var(--navy); font-weight: 900; cursor: pointer; font-size: 1.05rem; letter-spacing: .06em; }
 .journey-strip span { display: block; color: var(--tomato); font-size: .65rem; letter-spacing: .15em; }
-.map-footer { max-width: 760px; margin: 18px auto 6px; text-align: center; font-family: "KaiTi", "STKaiti", serif; font-size: 1.05rem; font-weight: 900; }
+.map-footer { max-width: 760px; margin: 18px auto 6px; text-align: center; font-family: "LXGW WenKai Lite", "KaiTi", cursive; font-size: clamp(1.05rem, 3vw, 1.35rem); font-weight: 900; letter-spacing: .08em; transform: rotate(-.6deg); }
 .admin-peek { position: absolute; right: 10px; bottom: 8px; border: 0; background: transparent; color: rgba(91,57,43,.34); font-size: 1rem; cursor: pointer; }
 
 .overlay { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 16px; overflow-y: auto; background: rgba(12,44,65,.73); backdrop-filter: blur(7px); animation: fadeIn .22s ease; }
@@ -246,11 +250,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   .pin-vanuatu { left: 67% !important; top: 44% !important; }
   .pin-sydney { left: 30% !important; top: 75% !important; }
   .pin-new-zealand { left: 74% !important; top: 72% !important; }
-  .route-a { left: 31%; top: 74%; width: 41%; transform: rotate(-52deg); }
-  .route-b { left: 68%; top: 45%; width: 31%; transform: rotate(74deg); }
-  .route-c { left: 76%; top: 71%; width: 56%; transform: rotate(-90deg); }
-  .route-d { left: 75%; top: 16%; width: 74%; transform: rotate(146deg); }
-  .route-e { left: 21%; top: 40%; width: 28%; transform: rotate(-78deg); }
+  .route-lines span { border-top-width: 2px; }
+  .route-a { left: 30%; top: 75%; width: 45%; --curve: 14%; transform: rotate(-48deg); }
+  .route-b { left: 67%; top: 44%; width: 31%; --curve: 12%; transform: rotate(76deg); }
+  .route-c { left: 74%; top: 72%; width: 57%; --curve: 13%; transform: rotate(-88deg); }
+  .route-d { left: 76%; top: 15%; width: 62%; --curve: 18%; transform: rotate(156deg); }
+  .route-e { left: 20%; top: 40%; width: 29%; --curve: 10%; transform: rotate(-70deg); }
   .journey-strip { grid-template-columns: repeat(3, 1fr); }
   .album-overlay { padding: 0; align-items: end; }
   .album-card { width: 100%; max-height: 94svh; border-radius: 24px 24px 0 0; border-bottom: 0; padding: 22px 14px 28px; }

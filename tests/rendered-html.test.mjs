@@ -24,6 +24,7 @@ test("server-renders the birthday invitation and journey", async () => {
   assert.match(html, /寿司宋/);
   assert.match(html, /每天开心一点点/);
   for (const place of ["悉尼", "瓦努阿图", "新西兰", "日本", "泰国", "香港"]) assert.match(html, new RegExp(place));
+  assert.match(html, /星星人希望你每天开心一点点/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/);
 });
 
@@ -37,6 +38,8 @@ test("includes durable album bindings and reduced-motion support", async () => {
   assert.match(hosting, /"r2": "PHOTOS"/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /map-canvas\.is-zoomed/);
+  assert.match(css, /LXGW WenKai Lite/);
+  assert.match(css, /border-top:\s*3px dashed rgba\(217,91,69,\.46\)/);
   assert.match(page, /image\/jpeg,image\/png,image\/webp/);
   assert.match(page, /10 MB/);
 });

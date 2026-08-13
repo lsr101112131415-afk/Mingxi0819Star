@@ -212,7 +212,7 @@ export function JourneyExperience() {
             <span className="envelope-letter-peek">YOU&apos;RE INVITED</span>
             <span className="envelope-front" />
             <span className="envelope-flap" />
-            <span className="wax-seal">✦</span>
+            <span className="recipient-note"><i>TO</i><b>严明曦</b><em>✦ little star mail ✦</em></span>
           </span>
           <strong>严明曦 · 五岁生日来信</strong>
           <small>轻轻点一下，打开信封</small>
@@ -281,7 +281,7 @@ export function JourneyExperience() {
             </button>
           ))}
         </div>
-        <p className="map-footer">愿我们去过的每一个地方，都变成严明曦成长故事里亮晶晶的一页。</p>
+        <p className="map-footer">星星人希望你每天开心一点点</p>
         <button className="admin-peek" onClick={() => setAdminOpen(true)} aria-label="打开相册管理">✦</button>
       </section>
 

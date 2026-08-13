@@ -24,6 +24,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN">
+      <head>
+        <link rel="preload" href="/fonts/lxgwwenkailite-regular.css" as="style" />
+        <link rel="stylesheet" href="/fonts/lxgwwenkailite-regular.css" />
+      </head>
       <body>{children}</body>
     </html>
   );
