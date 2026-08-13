@@ -212,7 +212,6 @@ export function JourneyExperience() {
             <span className="envelope-letter-peek">YOU&apos;RE INVITED</span>
             <span className="envelope-front" />
             <span className="envelope-flap" />
-            <span className="recipient-note"><i>TO</i><b>严明曦</b><em>✦ little star mail ✦</em></span>
           </span>
           <strong>严明曦 · 五岁生日来信</strong>
           <small>轻轻点一下，打开信封</small>

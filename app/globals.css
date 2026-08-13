@@ -60,20 +60,15 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .envelope-scene small { color: #f8d981; font-weight: 800; letter-spacing: .12em; }
 .envelope-scene:hover .envelope { transform: translateY(-6px) rotate(-1deg); }
 .envelope { position: relative; width: min(360px, 76vw); aspect-ratio: 1.42; display: block; transition: transform .25s ease; filter: drop-shadow(0 20px 22px rgba(0,0,0,.3)); }
-.envelope-back { position: absolute; inset: 0; border: 3px solid #7b4d2d; border-radius: 5px 9px 6px 10px; background: #f4cc55 url("/envelope-doodle.png") center/cover no-repeat; }
+.envelope-back { position: absolute; inset: 0; border: 3px solid #7b4d2d; border-radius: 5px 9px 6px 10px; background: #f4cc55; }
 .envelope-letter-peek { position: absolute; z-index: 1; left: 10%; right: 10%; bottom: 12%; height: 72%; display: grid; place-items: start center; padding-top: 18px; border: 2px solid var(--ink); border-radius: 8px 8px 3px 3px; color: var(--tomato); background: #fff8e8; font-size: .72rem; font-weight: 900; letter-spacing: .15em; transition: transform .65s cubic-bezier(.2,.76,.24,1) .18s; }
-.envelope-front { position: absolute; z-index: 2; inset: 0; overflow: hidden; border: 3px solid #7b4d2d; border-radius: 5px 9px 6px 10px; clip-path: polygon(0 35%,50% 72%,100% 35%,100% 100%,0 100%); background: linear-gradient(155deg,rgba(246,209,92,.82) 49%,rgba(239,190,71,.9) 50%), url("/envelope-doodle.png") center/cover; }
-.envelope-front::after { content: ""; position: absolute; inset: 35% 0 0; background: linear-gradient(35deg,transparent 49%,rgba(255,237,158,.38) 50%); }
-.envelope-flap { position: absolute; z-index: 3; inset: 0; border: 3px solid #7b4d2d; border-radius: 5px 9px 0 0; background: #f5ce58 url("/envelope-doodle.png") center top/cover no-repeat; clip-path: polygon(0 0,100% 0,50% 68%); transform-origin: top; transition: transform .6s cubic-bezier(.45,.05,.2,1); backface-visibility: hidden; }
-.recipient-note { position: absolute; z-index: 5; left: 9%; bottom: 11%; width: 42%; display: grid; gap: 1px; padding: 8px 9px 7px; border: 2px solid rgba(111,68,40,.75); border-radius: 4px 7px 5px 8px; color: #633f2a; background: rgba(255,237,167,.9); text-align: left; transform: rotate(-2.5deg); box-shadow: 2px 3px 0 rgba(111,68,40,.18); transition: opacity .18s ease .15s, transform .3s ease; }
-.recipient-note i { font-style: normal; font-size: .52rem; letter-spacing: .15em; }
-.recipient-note b { font-size: clamp(.95rem,4vw,1.35rem); line-height: 1; font-weight: 400; }
-.recipient-note em { color: var(--tomato); font-style: normal; font-size: .46rem; letter-spacing: .04em; }
+.envelope-front { position: absolute; z-index: 4; inset: 0; overflow: hidden; border: 3px solid #7b4d2d; border-radius: 5px 9px 6px 10px; background: #f4cc55 url("/envelope-doodle.png") center/cover no-repeat; transform-origin: bottom center; transition: transform .62s cubic-bezier(.45,.05,.2,1), opacity .42s ease; backface-visibility: hidden; }
+.envelope-front::after { content: ""; position: absolute; inset: 7px; border: 1px dashed rgba(111,68,40,.25); border-radius: 3px 7px 4px 8px; pointer-events: none; }
+.envelope-flap { display: none; }
 .envelope-shadow { position: absolute; bottom: 82px; width: 68%; height: 24px; border-radius: 50%; background: rgba(0,0,0,.23); filter: blur(10px); }
 .envelope-opened .envelope-scene { transform: translateY(46vh) scale(.7); opacity: 0; visibility: hidden; }
-.envelope-opened .envelope-flap { transform: rotateX(180deg); }
+.envelope-opened .envelope-front { transform: perspective(700px) rotateX(-108deg) translateY(12%); opacity: 0; }
 .envelope-opened .envelope-letter-peek { transform: translateY(-46%); }
-.envelope-opened .recipient-note { opacity: 0; transform: rotate(-7deg) scale(.75); }
 .invitation-card {
   position: relative;
   width: min(560px, 100%);
