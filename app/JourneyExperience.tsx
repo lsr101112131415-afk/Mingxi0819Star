@@ -1,8 +1,9 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import tripManifest from "../public/trips/manifest.json";
 
-type Photo = { id: string; filename: string; url: string; sortOrder: number };
+type Photo = { id: string; filename: string; url: string; sortOrder: number; bundled?: boolean };
 type Location = {
   id: string;
   name: string;
@@ -20,6 +21,19 @@ const fallbackLocations: Location[] = [
   { id: "thailand", name: "泰国", subtitle: "Thailand", description: "热带的风吹过来，连笑声都变得暖暖的。", stopOrder: 5, photos: [] },
   { id: "hong-kong", name: "香港", subtitle: "Hong Kong", description: "城市的灯亮起来，我们的星星旅程也多了一颗新收藏。", stopOrder: 6, photos: [] },
 ];
+
+const bundledPhotos = tripManifest as Record<string, string[]>;
+
+function addBundledPhotos(location: Location): Location {
+  const localPhotos = (bundledPhotos[location.id] ?? []).map((url, index) => ({
+    id: `memory-${location.id}-${index + 1}`,
+    filename: `${location.name}旅行照片 ${index + 1}`,
+    url,
+    sortOrder: index,
+    bundled: true,
+  }));
+  return { ...location, photos: [...localPhotos, ...location.photos] };
+}
 
 const pinPositions: Record<string, { left: string; top: string }> = {
   "hong-kong": { left: "34%", top: "15%" },
@@ -45,7 +59,7 @@ function apiError(payload: unknown, fallback: string) {
 export function JourneyExperience() {
   const [envelopeOpened, setEnvelopeOpened] = useState(false);
   const [entered, setEntered] = useState(false);
-  const [locations, setLocations] = useState(fallbackLocations);
+  const [locations, setLocations] = useState(() => fallbackLocations.map(addBundledPhotos));
   const [activeId, setActiveId] = useState<string | null>(null);
   const [zoomId, setZoomId] = useState<string | null>(null);
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -63,7 +77,7 @@ export function JourneyExperience() {
     try {
       const response = await fetch("/api/journey", { cache: "no-store" });
       const payload = (await response.json()) as { locations?: Location[] };
-      if (response.ok && payload.locations) setLocations(payload.locations);
+      if (response.ok && payload.locations) setLocations(payload.locations.map(addBundledPhotos));
     } catch {
       setNotice("相册正在准备中，旅行地图仍然可以浏览。");
     }
@@ -187,9 +201,10 @@ export function JourneyExperience() {
 
   async function movePhoto(index: number, direction: -1 | 1) {
     if (!activeLocation) return;
+    const editablePhotos = activeLocation.photos.filter((photo) => !photo.bundled);
     const target = index + direction;
-    if (target < 0 || target >= activeLocation.photos.length) return;
-    const ids = activeLocation.photos.map((photo) => photo.id);
+    if (target < 0 || target >= editablePhotos.length) return;
+    const ids = editablePhotos.map((photo) => photo.id);
     [ids[index], ids[target]] = [ids[target], ids[index]];
     const response = await fetch("/api/admin/reorder", {
       method: "POST",
@@ -198,7 +213,7 @@ export function JourneyExperience() {
     });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) return setNotice(apiError(payload, "排序失败"));
-    setPhotoIndex(target);
+    setPhotoIndex(activeLocation.photos.findIndex((photo) => photo.id === ids[target]));
     await refresh();
   }
 
@@ -323,7 +338,7 @@ export function JourneyExperience() {
               {activeLocation.photos.length ? (
                 <>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={activeLocation.photos[photoIndex]?.url} alt={`${activeLocation.name}旅行照片 ${photoIndex + 1}`} loading="lazy" />
+                  <img className="polaroid-photo" src={activeLocation.photos[photoIndex]?.url} alt={`${activeLocation.name}旅行照片 ${photoIndex + 1}`} loading="lazy" />
                   {activeLocation.photos.length > 1 && <>
                     <button className="photo-arrow prev" onClick={() => setPhotoIndex((photoIndex - 1 + activeLocation.photos.length) % activeLocation.photos.length)} aria-label="上一张">‹</button>
                     <button className="photo-arrow next" onClick={() => setPhotoIndex((photoIndex + 1) % activeLocation.photos.length)} aria-label="下一张">›</button>
@@ -336,7 +351,7 @@ export function JourneyExperience() {
             </div>
 
             {activeLocation.photos.length > 1 && (
-              <div className="thumbnails" aria-label="照片缩略图">
+              <div className="thumbnails" aria-label="旅行手帐照片缩略图">
                 {activeLocation.photos.map((photo, index) => (
                   <button key={photo.id} className={index === photoIndex ? "active" : ""} onClick={() => setPhotoIndex(index)} aria-label={`查看第${index + 1}张`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -357,13 +372,13 @@ export function JourneyExperience() {
                 </label>
                 {uploadProgress !== null && <div className="progress"><span style={{ width: `${uploadProgress}%` }} /><b>{uploadProgress}%</b></div>}
                 <label className="description-editor">纪念文字<textarea value={draftDescription} maxLength={240} onChange={(event) => setDraftDescription(event.target.value)} /><button onClick={saveDescription} disabled={loading}>保存文字</button></label>
-                {activeLocation.photos.length > 0 && (
+                {activeLocation.photos.some((photo) => !photo.bundled) && (
                   <div className="photo-admin-list">
-                    {activeLocation.photos.map((photo, index) => (
+                    {activeLocation.photos.filter((photo) => !photo.bundled).map((photo, index, editablePhotos) => (
                       <div key={photo.id}>
                         <span>{index + 1}</span><p title={photo.filename}>{photo.filename}</p>
                         <button onClick={() => movePhoto(index, -1)} disabled={index === 0} aria-label="向前移动">←</button>
-                        <button onClick={() => movePhoto(index, 1)} disabled={index === activeLocation.photos.length - 1} aria-label="向后移动">→</button>
+                        <button onClick={() => movePhoto(index, 1)} disabled={index === editablePhotos.length - 1} aria-label="向后移动">→</button>
                         <button className="delete" onClick={() => deletePhoto(photo)}>删除</button>
                       </div>
                     ))}
