@@ -227,6 +227,16 @@ export function JourneyExperience() {
     await refresh();
   }
 
+  async function deleteNextStopPhoto(photo: Photo) {
+    if (!window.confirm(`确定删除“${photo.filename}”吗？删除后无法恢复。`)) return;
+    const response = await fetch(`/api/admin/next-stop/photo/${photo.id}`, { method: "DELETE" });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) return setNotice(apiError(payload, "删除失败"));
+    setNotice("下一站照片已删除");
+    setNextStopIndex(Math.max(0, Math.min(nextStopIndex, nextStopPhotos.length - 2)));
+    await refresh();
+  }
+
   async function movePhoto(index: number, direction: -1 | 1) {
     if (!activeLocation) return;
     const editablePhotos = activeLocation.photos.filter((photo) => !photo.bundled);
@@ -358,10 +368,17 @@ export function JourneyExperience() {
               </div>
             )}
             {isAdmin ? (
-              <label className="next-stop-upload">
-                <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => { uploadNextStop(event.target.files); event.target.value = ""; }} />
-                ＋ 上传下一站照片 <small>每张不超过 5 MB</small>
-              </label>
+              <div className="next-stop-actions">
+                <label className="next-stop-upload">
+                  <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => { uploadNextStop(event.target.files); event.target.value = ""; }} />
+                  ＋ 上传下一站照片 <small>每张不超过 5 MB</small>
+                </label>
+                {nextStopPhotos[nextStopIndex] && (
+                  <button className="next-stop-delete" onClick={() => deleteNextStopPhoto(nextStopPhotos[nextStopIndex])}>
+                    ♡ 删除这张照片
+                  </button>
+                )}
+              </div>
             ) : (
               <button className="next-stop-unlock" onClick={() => { setNextStopOpen(false); setAdminOpen(true); }}>解锁后上传照片</button>
             )}
