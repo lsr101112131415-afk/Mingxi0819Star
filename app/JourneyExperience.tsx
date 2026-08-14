@@ -298,6 +298,17 @@ export function JourneyExperience() {
           </div>
           <div className="map-actions">
             <span className="stop-count">6 STOPS · 6 站</span>
+            <button
+              className="previous-page-trigger"
+              onClick={() => {
+                setNextStopOpen(false);
+                setActiveId(null);
+                setZoomId(null);
+                setEntered(false);
+              }}
+            >
+              <span aria-hidden="true">←</span> 上一页
+            </button>
             <button className="next-stop-trigger" onClick={() => setNextStopOpen(true)}>
               下一站 <span aria-hidden="true">✦</span>
             </button>

@@ -144,6 +144,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .map-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 .stop-count, .small-button { border: 2px solid var(--navy); border-radius: 999px; padding: 9px 14px; background: rgba(255,250,240,.86); color: var(--navy); font-size: .75rem; font-weight: 900; letter-spacing: .08em; white-space: nowrap; }
 .small-button { cursor: pointer; }
+.previous-page-trigger { min-width: 104px; border: 2px solid var(--navy); border-radius: 18px 12px 17px 13px; padding: 7px 14px; background: #fff8dc; color: var(--navy); box-shadow: 3px 4px 0 rgba(23,63,95,.2); font-family: var(--font-doodle); font-size: 1rem; font-weight: 400; letter-spacing: .08em; cursor: pointer; transform: rotate(1deg); transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.previous-page-trigger span { display: inline-block; color: var(--tomato); transition: transform .2s ease; }
+.previous-page-trigger:hover, .previous-page-trigger:focus-visible { background: #ffefd0; transform: translateY(-2px) rotate(-1deg) scale(1.03); box-shadow: 5px 6px 0 rgba(23,63,95,.2); }
+.previous-page-trigger:hover span { transform: translateX(-3px); }
 .next-stop-trigger { min-width: 104px; border: 2px solid var(--ink); border-radius: 13px 18px 12px 17px; padding: 8px 15px; background: var(--tomato); color: #fff9e8; box-shadow: 3px 4px 0 rgba(91,57,43,.24); font-family: var(--font-doodle); font-size: 1.05rem; font-weight: 400; letter-spacing: .08em; cursor: pointer; transform: rotate(-1deg); transition: transform .2s ease, box-shadow .2s ease; }
 .next-stop-trigger span { display: inline-block; color: var(--butter); transition: transform .25s ease; }
 .next-stop-trigger:hover, .next-stop-trigger:focus-visible { transform: translateY(-2px) rotate(1deg) scale(1.03); box-shadow: 5px 6px 0 rgba(91,57,43,.24); }
@@ -292,7 +296,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   .album-card { width: 100%; max-height: 94svh; border-radius: 24px 24px 0 0; border-bottom: 0; padding: 22px 14px 28px; }
   .photo-stage { min-height: 260px; }
   .photo-stage > img { height: 43vh; }
-  .next-stop-trigger { min-width: 92px; padding: 6px 11px; font-size: .92rem; }
+  .previous-page-trigger, .next-stop-trigger { min-width: 92px; padding: 6px 11px; font-size: .92rem; }
   .next-stop-popup { padding: 18px 14px 24px; box-shadow: 7px 8px 0 var(--peach); }
   .album-heading { gap: 10px; }
   .photo-total { display: none; }
