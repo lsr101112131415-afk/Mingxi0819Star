@@ -59,6 +59,7 @@ function apiError(payload: unknown, fallback: string) {
 export function JourneyExperience() {
   const [envelopeOpened, setEnvelopeOpened] = useState(false);
   const [entered, setEntered] = useState(false);
+  const [nextStopOpen, setNextStopOpen] = useState(false);
   const [locations, setLocations] = useState(() => fallbackLocations.map(addBundledPhotos));
   const [activeId, setActiveId] = useState<string | null>(null);
   const [zoomId, setZoomId] = useState<string | null>(null);
@@ -72,12 +73,6 @@ export function JourneyExperience() {
   const touchStart = useRef<number | null>(null);
 
   const activeLocation = useMemo(() => locations.find((location) => location.id === activeId) ?? null, [activeId, locations]);
-  const nextLocation = useMemo(() => {
-    if (!activeLocation) return null;
-    const currentIndex = locations.findIndex((location) => location.id === activeLocation.id);
-    return locations[(currentIndex + 1) % locations.length] ?? null;
-  }, [activeLocation, locations]);
-
   const refresh = useCallback(async () => {
     try {
       const response = await fetch("/api/journey", { cache: "no-store" });
@@ -106,7 +101,8 @@ export function JourneyExperience() {
   useEffect(() => {
     const keydown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        if (activeId) {
+        if (nextStopOpen) setNextStopOpen(false);
+        else if (activeId) {
           setActiveId(null);
           setZoomId(null);
         }
@@ -118,7 +114,7 @@ export function JourneyExperience() {
     };
     window.addEventListener("keydown", keydown);
     return () => window.removeEventListener("keydown", keydown);
-  }, [activeId, activeLocation, adminOpen]);
+  }, [activeId, activeLocation, adminOpen, nextStopOpen]);
 
   const openLocation = (id: string) => {
     setNotice("");
@@ -129,14 +125,6 @@ export function JourneyExperience() {
   const closeAlbum = () => {
     setActiveId(null);
     window.setTimeout(() => setZoomId(null), 120);
-  };
-
-  const goToNextStation = () => {
-    if (!nextLocation) return;
-    setActiveId(null);
-    setPhotoIndex(0);
-    setZoomId(nextLocation.id);
-    window.setTimeout(() => setActiveId(nextLocation.id), 520);
   };
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -273,6 +261,9 @@ export function JourneyExperience() {
           </div>
           <div className="map-actions">
             <span className="stop-count">6 STOPS · 6 站</span>
+            <button className="next-stop-trigger" onClick={() => setNextStopOpen(true)}>
+              下一站 <span aria-hidden="true">✦</span>
+            </button>
             {isAdmin && <button className="small-button" onClick={logout}>退出管理</button>}
           </div>
         </header>
@@ -313,6 +304,20 @@ export function JourneyExperience() {
       </section>
 
       {notice && <button className="toast" onClick={() => setNotice("")} aria-live="polite">{notice}</button>}
+
+      {nextStopOpen && (
+        <div className="overlay next-stop-overlay" role="dialog" aria-modal="true" aria-labelledby="next-stop-title" onMouseDown={(event) => event.target === event.currentTarget && setNextStopOpen(false)}>
+          <section className="next-stop-popup">
+            <button className="close-button" onClick={() => setNextStopOpen(false)} aria-label="关闭下一站卡片">×</button>
+            <div className="next-stop-popup-art">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/characters/next-stop-party-v2.png" alt="两位星星人带着爱心气球，准备一起前往下一站" />
+            </div>
+            <p aria-hidden="true">✦　♡　✦</p>
+            <h3 id="next-stop-title">一起去下一站叭~</h3>
+          </section>
+        </div>
+      )}
 
       {adminOpen && !isAdmin && (
         <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="admin-title" onMouseDown={(event) => event.target === event.currentTarget && setAdminOpen(false)}>
@@ -375,20 +380,6 @@ export function JourneyExperience() {
             )}
 
             <div className="memory-note"><span aria-hidden="true">✦</span><p>{activeLocation.description}</p></div>
-
-            {nextLocation && (
-              <button className="next-stop-card" onClick={goToNextStation} aria-label={`前往下一站${nextLocation.name}`}>
-                <span className="next-stop-art">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/characters/next-stop-duo.png" alt="坐着的星星人、爱心气球和举爱心旗的星星人" />
-                </span>
-                <span className="next-stop-copy">
-                  <small>NEXT STOP · {nextLocation.name}</small>
-                  <strong>一起去下一站吧~</strong>
-                  <i aria-hidden="true">✦　·　·　·　➜</i>
-                </span>
-              </button>
-            )}
 
             {isAdmin && (
               <section className="admin-tools" aria-label="相册管理工具">
