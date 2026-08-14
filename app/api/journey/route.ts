@@ -1,7 +1,7 @@
 import { asc } from "drizzle-orm";
 import { ensureDatabase } from "../../../db/bootstrap";
 import { getDb } from "../../../db";
-import { locations, photos } from "../../../db/schema";
+import { locations, nextStopPhotos, photos } from "../../../db/schema";
 
 export const dynamic = "force-dynamic";
 
@@ -9,9 +9,10 @@ export async function GET() {
   try {
     await ensureDatabase();
     const db = getDb();
-    const [locationRows, photoRows] = await Promise.all([
+    const [locationRows, photoRows, nextStopPhotoRows] = await Promise.all([
       db.select().from(locations).orderBy(asc(locations.stopOrder)),
       db.select().from(photos).orderBy(asc(photos.locationId), asc(photos.sortOrder)),
+      db.select().from(nextStopPhotos).orderBy(asc(nextStopPhotos.sortOrder)),
     ]);
     return Response.json({
       locations: locationRows.map((location) => ({
@@ -24,6 +25,12 @@ export async function GET() {
             url: `/api/photo/${photo.id}`,
             sortOrder: photo.sortOrder,
           })),
+      })),
+      nextStopPhotos: nextStopPhotoRows.map((photo) => ({
+        id: photo.id,
+        filename: photo.filename,
+        url: `/api/next-stop/photo/${photo.id}`,
+        sortOrder: photo.sortOrder,
       })),
     });
   } catch (error) {

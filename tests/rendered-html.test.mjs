@@ -42,4 +42,6 @@ test("includes durable album bindings and reduced-motion support", async () => {
   assert.match(css, /border-top:\s*3px dashed rgba\(217,91,69,\.46\)/);
   assert.match(page, /image\/jpeg,image\/png,image\/webp/);
   assert.match(page, /10 MB/);
+  assert.match(page, /\/api\/admin\/next-stop\/upload/);
+  assert.match(page, /nextStopPhotos/);
 });

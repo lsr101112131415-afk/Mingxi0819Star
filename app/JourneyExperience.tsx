@@ -60,6 +60,8 @@ export function JourneyExperience() {
   const [envelopeOpened, setEnvelopeOpened] = useState(false);
   const [entered, setEntered] = useState(false);
   const [nextStopOpen, setNextStopOpen] = useState(false);
+  const [nextStopPhotos, setNextStopPhotos] = useState<Photo[]>([]);
+  const [nextStopIndex, setNextStopIndex] = useState(0);
   const [locations, setLocations] = useState(() => fallbackLocations.map(addBundledPhotos));
   const [activeId, setActiveId] = useState<string | null>(null);
   const [zoomId, setZoomId] = useState<string | null>(null);
@@ -76,8 +78,11 @@ export function JourneyExperience() {
   const refresh = useCallback(async () => {
     try {
       const response = await fetch("/api/journey", { cache: "no-store" });
-      const payload = (await response.json()) as { locations?: Location[] };
-      if (response.ok && payload.locations) setLocations(payload.locations.map(addBundledPhotos));
+      const payload = (await response.json()) as { locations?: Location[]; nextStopPhotos?: Photo[] };
+      if (response.ok && payload.locations) {
+        setLocations(payload.locations.map(addBundledPhotos));
+        setNextStopPhotos(payload.nextStopPhotos ?? []);
+      }
     } catch {
       setNotice("相册正在准备中，旅行地图仍然可以浏览。");
     }
@@ -172,6 +177,28 @@ export function JourneyExperience() {
       setUploadProgress(null);
       setNotice("上传中断，请检查网络后重试");
     };
+    xhr.send(form);
+  }
+
+  function uploadNextStop(files: FileList | null) {
+    if (!files?.length) return;
+    const form = new FormData();
+    Array.from(files).forEach((file) => form.append("files", file));
+    setUploadProgress(0);
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/api/admin/next-stop/upload");
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) setUploadProgress(Math.round((event.loaded / event.total) * 100));
+    };
+    xhr.onload = async () => {
+      setUploadProgress(null);
+      const payload = JSON.parse(xhr.responseText || "{}");
+      if (xhr.status < 200 || xhr.status >= 300) return setNotice(apiError(payload, "上传失败"));
+      setNotice(`已放入 ${payload.uploaded} 张下一站照片`);
+      await refresh();
+      setNextStopIndex(nextStopPhotos.length);
+    };
+    xhr.onerror = () => { setUploadProgress(null); setNotice("上传中断，请重新试一次"); };
     xhr.send(form);
   }
 
@@ -315,6 +342,30 @@ export function JourneyExperience() {
             </div>
             <p aria-hidden="true">✦　♡　✦</p>
             <h3 id="next-stop-title">一起去下一站叭~</h3>
+            {nextStopPhotos.length > 0 && (
+              <div className="next-stop-gallery" aria-label={`下一站照片，共${nextStopPhotos.length}张`}>
+                <div className="next-stop-photo-frame">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={nextStopPhotos[nextStopIndex]?.url} alt={`下一站照片 ${nextStopIndex + 1}`} />
+                  {nextStopPhotos.length > 1 && (
+                    <>
+                      <button className="next-stop-photo-arrow prev" onClick={() => setNextStopIndex((nextStopIndex - 1 + nextStopPhotos.length) % nextStopPhotos.length)} aria-label="上一张下一站照片">‹</button>
+                      <button className="next-stop-photo-arrow next" onClick={() => setNextStopIndex((nextStopIndex + 1) % nextStopPhotos.length)} aria-label="下一张下一站照片">›</button>
+                    </>
+                  )}
+                  <span>{nextStopIndex + 1} / {nextStopPhotos.length}</span>
+                </div>
+              </div>
+            )}
+            {isAdmin ? (
+              <label className="next-stop-upload">
+                <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(event) => { uploadNextStop(event.target.files); event.target.value = ""; }} />
+                ＋ 上传下一站照片 <small>每张不超过 10 MB</small>
+              </label>
+            ) : (
+              <button className="next-stop-unlock" onClick={() => { setNextStopOpen(false); setAdminOpen(true); }}>解锁后上传照片</button>
+            )}
+            {uploadProgress !== null && <div className="progress next-stop-progress"><span style={{ width: `${uploadProgress}%` }} /><b>{uploadProgress}%</b></div>}
           </section>
         </div>
       )}

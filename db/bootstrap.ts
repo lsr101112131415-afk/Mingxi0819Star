@@ -36,6 +36,16 @@ export function ensureDatabase() {
         created_at INTEGER NOT NULL
       )`),
       db.prepare("CREATE INDEX IF NOT EXISTS idx_photos_location_sort ON photos(location_id, sort_order)"),
+      db.prepare(`CREATE TABLE IF NOT EXISTS next_stop_photos (
+        id TEXT PRIMARY KEY NOT NULL,
+        object_key TEXT NOT NULL UNIQUE,
+        filename TEXT NOT NULL,
+        mime_type TEXT NOT NULL,
+        size INTEGER NOT NULL,
+        sort_order INTEGER NOT NULL,
+        created_at INTEGER NOT NULL
+      )`),
+      db.prepare("CREATE INDEX IF NOT EXISTS idx_next_stop_photos_sort ON next_stop_photos(sort_order)"),
     ]);
     await db.batch(
       initialLocations.map((row) =>
