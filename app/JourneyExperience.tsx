@@ -72,6 +72,11 @@ export function JourneyExperience() {
   const touchStart = useRef<number | null>(null);
 
   const activeLocation = useMemo(() => locations.find((location) => location.id === activeId) ?? null, [activeId, locations]);
+  const nextLocation = useMemo(() => {
+    if (!activeLocation) return null;
+    const currentIndex = locations.findIndex((location) => location.id === activeLocation.id);
+    return locations[(currentIndex + 1) % locations.length] ?? null;
+  }, [activeLocation, locations]);
 
   const refresh = useCallback(async () => {
     try {
@@ -124,6 +129,14 @@ export function JourneyExperience() {
   const closeAlbum = () => {
     setActiveId(null);
     window.setTimeout(() => setZoomId(null), 120);
+  };
+
+  const goToNextStation = () => {
+    if (!nextLocation) return;
+    setActiveId(null);
+    setPhotoIndex(0);
+    setZoomId(nextLocation.id);
+    window.setTimeout(() => setActiveId(nextLocation.id), 520);
   };
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -362,6 +375,20 @@ export function JourneyExperience() {
             )}
 
             <div className="memory-note"><span aria-hidden="true">✦</span><p>{activeLocation.description}</p></div>
+
+            {nextLocation && (
+              <button className="next-stop-card" onClick={goToNextStation} aria-label={`前往下一站${nextLocation.name}`}>
+                <span className="next-stop-art">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/characters/next-stop-duo.png" alt="坐着的星星人、爱心气球和举爱心旗的星星人" />
+                </span>
+                <span className="next-stop-copy">
+                  <small>NEXT STOP · {nextLocation.name}</small>
+                  <strong>一起去下一站吧~</strong>
+                  <i aria-hidden="true">✦　·　·　·　➜</i>
+                </span>
+              </button>
+            )}
 
             {isAdmin && (
               <section className="admin-tools" aria-label="相册管理工具">
