@@ -222,7 +222,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .next-stop-card:hover, .next-stop-card:focus-visible { transform: translateY(-3px) rotate(-.5deg); box-shadow: 9px 11px 0 var(--peach); }
 .next-stop-card:active { transform: translate(3px, 3px) scale(.98); box-shadow: 3px 4px 0 var(--peach); }
 .next-stop-art { position: relative; z-index: 1; width: 100%; height: 145px; display: block; overflow: hidden; background: #fff; filter: drop-shadow(0 4px 0 rgba(91,57,43,.12)); transition: transform .28s ease; }
-.next-stop-art::after { content: ""; position: absolute; z-index: 2; left: 0; bottom: 0; width: 45%; height: 35%; background: #fff; pointer-events: none; }
 .next-stop-art img { width: 100%; height: 100%; display: block; object-fit: contain; object-position: center; }
 .next-stop-card:hover .next-stop-art { transform: translateX(6px) rotate(1deg) scale(1.03); }
 .next-stop-copy { position: relative; z-index: 2; display: grid; justify-items: start; text-align: left; }
