@@ -359,8 +359,8 @@ export function JourneyExperience() {
             )}
             {isAdmin ? (
               <label className="next-stop-upload">
-                <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(event) => { uploadNextStop(event.target.files); event.target.value = ""; }} />
-                ＋ 上传下一站照片 <small>每张不超过 10 MB</small>
+                <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => { uploadNextStop(event.target.files); event.target.value = ""; }} />
+                ＋ 上传下一站照片 <small>每张不超过 5 MB</small>
               </label>
             ) : (
               <button className="next-stop-unlock" onClick={() => { setNextStopOpen(false); setAdminOpen(true); }}>解锁后上传照片</button>
@@ -436,8 +436,8 @@ export function JourneyExperience() {
               <section className="admin-tools" aria-label="相册管理工具">
                 <h4>整理这一站</h4>
                 <label className="upload-button">
-                  <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(event) => { upload(event.target.files); event.target.value = ""; }} />
-                  ＋ 添加照片 <small>JPG / PNG / WEBP · 每张不超过 10 MB</small>
+                  <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => { upload(event.target.files); event.target.value = ""; }} />
+                  ＋ 添加照片 <small>JPG / PNG / WEBP · 每张不超过 5 MB</small>
                 </label>
                 {uploadProgress !== null && <div className="progress"><span style={{ width: `${uploadProgress}%` }} /><b>{uploadProgress}%</b></div>}
                 <label className="description-editor">纪念文字<textarea value={draftDescription} maxLength={240} onChange={(event) => setDraftDescription(event.target.value)} /><button onClick={saveDescription} disabled={loading}>保存文字</button></label>

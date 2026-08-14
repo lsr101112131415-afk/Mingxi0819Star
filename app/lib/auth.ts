@@ -1,10 +1,8 @@
-import { env } from "cloudflare:workers";
-
 const COOKIE_NAME = "star_admin";
 const SESSION_SECONDS = 60 * 60 * 8;
 
 function runtimeEnv() {
-  return env as unknown as { ADMIN_PASSWORD?: string; SESSION_SECRET?: string };
+  return { ADMIN_PASSWORD: process.env.ADMIN_PASSWORD, SESSION_SECRET: process.env.SESSION_SECRET };
 }
 
 function bytesToBase64Url(bytes: Uint8Array) {
